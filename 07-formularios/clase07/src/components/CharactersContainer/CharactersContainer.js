@@ -1,29 +1,14 @@
 import React, {Component} from 'react'
 import Character from '../Character/Character'
+import MiForm from '../MiForm/MiForm'
 import './styles.css'
-let heroes = [
-    {
-        nombre:'Ahsoka',
-        descripcion:'Lorem ipsum',
-        imagen:'./img/characters/ahsoka.jpg'
-    },
-    {
-        nombre:'Anakin',
-        descripcion:'Lorem ipsum',
-        imagen:'./img/characters/anakin.jpg'
-    },
-    {
-        nombre:'Batman',
-        descripcion:'Lorem ipsum',
-        imagen:'./img/characters/batman.jpg'
-    }
-]
 
 class CharactersContainer extends Component {
   constructor(props){
     super(props)
     this.state = {
       personajes: [],
+      backup:[],
       page:1
     }
   }
@@ -36,7 +21,8 @@ class CharactersContainer extends Component {
     fetch('https://rickandmortyapi.com/api/character')
     .then(resp => resp.json())
     .then(data => this.setState({
-      personajes: data.results
+      personajes: data.results,
+      backup: data.results
     }))
     .catch(err => console.log(err))
   }
@@ -49,12 +35,20 @@ class CharactersContainer extends Component {
       page: this.state.page + 1
     }))
     .catch(err => console.log(err))
-
   }
+
+  filtrarPersonajes(nombre){
+    let personajesFiltrados = this.state.backup.filter((elm) => elm.name.toLowerCase().includes(nombre.toLowerCase()))
+    this.setState({
+      personajes: personajesFiltrados,
+    })
+  }
+
 
   render(){
     return (
       <>
+      <MiForm filtrarPersonajes={(nombre) => this.filtrarPersonajes(nombre)} />
       <div className='characters-container'>
         {
           this.state.personajes.length === 0 ?
