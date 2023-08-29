@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import CharactersContainer from '../../components/CharactersContainer/CharactersContainer'
 export default class index extends Component {
   constructor(props){
     super(props)
@@ -8,9 +8,7 @@ export default class index extends Component {
   render() {
     return (
     <div>
-        <h1>
-        ESTE ES LA PANTALLA PERSONAJES
-        </h1>
+        <CharactersContainer />
     </div>
     )
   }
