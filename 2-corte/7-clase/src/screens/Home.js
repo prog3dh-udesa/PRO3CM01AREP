@@ -15,7 +15,11 @@ export default class Home extends Component {
     }  
 
     componentDidMount(){
-        db.collection('posts').onSnapshot(docs => {
+        db.collection('posts')
+        .where('likes', '>', 1)
+        .orderBy('likes', 'desc')
+        .limit(6)
+        .onSnapshot(docs => {
             let arrPosteos = []
             docs.forEach(doc => {
                 arrPosteos.push({
@@ -36,7 +40,7 @@ export default class Home extends Component {
                 <FlatList
                     data={this.state.posteos}
                     keyExtractor={(item)=> item.id.toString()}
-                    renderItem={({ item })=> <Post data={item.data} id={item.id}/>}
+                    renderItem={({ item })=> <Post navigation={this.props.navigation} data={item.data} id={item.id}/>}
                 />
                 
             </View>
